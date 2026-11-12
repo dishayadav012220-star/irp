@@ -1,6 +1,6 @@
 """
 Placement Readiness Tracker
-IRP-II (CSE2596) Assignment - Task 1: data and control structures.
+IRP-II (CSE2596) Assignment - Tasks 1 and 2.
 """
 
 # Each student is a dictionary; all students are stored in a list.
@@ -46,9 +46,37 @@ def add_student_from_input(students):
     students.append(student)
 
 
+def average(student):
+    """Return the mean of the three scores."""
+    return (student["aptitude"] + student["verbal"] + student["coding"]) / 3
+
+
+def grade(avg):
+    """Return the grade for an average score."""
+    if avg >= 80:
+        return "A"
+    elif avg >= 60:
+        return "B"
+    elif avg >= 40:
+        return "C"
+    else:
+        return "Needs practice"
+
+
+def print_table(students):
+    """Print a neatly formatted result table using a loop."""
+    print(f"{'Name':<16}{'Roll':<7}{'Apt':>5}{'Verbal':>8}{'Coding':>8}{'Average':>9}  Grade")
+    print("-" * 68)
+    for s in students:
+        avg = average(s)
+        print(f"{s['name']:<16}{s['roll_no']:<7}{s['aptitude']:>5}{s['verbal']:>8}"
+              f"{s['coding']:>8}{avg:>9.2f}  {grade(avg)}")
+
+
 def main():
     add_student_from_input(students)
-    print(f"\nTotal students recorded: {len(students)}")
+    print("\n=== Result Table ===")
+    print_table(students)
 
 
 if __name__ == "__main__":
