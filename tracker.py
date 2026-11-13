@@ -63,6 +63,24 @@ def grade(avg):
         return "Needs practice"
 
 
+def top_scorer(students):
+    """Return the student with the highest average."""
+    best = students[0]
+    for s in students:
+        if average(s) > average(best):
+            best = s
+    return best
+
+
+def needs_practice(students, limit=40):
+    """Return the students whose average is below limit (default 40)."""
+    weak = []
+    for s in students:
+        if average(s) < limit:
+            weak.append(s)
+    return weak
+
+
 def print_table(students):
     """Print a neatly formatted result table using a loop."""
     print(f"{'Name':<16}{'Roll':<7}{'Apt':>5}{'Verbal':>8}{'Coding':>8}{'Average':>9}  Grade")
@@ -77,6 +95,17 @@ def main():
     add_student_from_input(students)
     print("\n=== Result Table ===")
     print_table(students)
+
+    top = top_scorer(students)
+    print(f"\nTop scorer: {top['name']} (roll {top['roll_no']}) with average {average(top):.2f}")
+
+    print("\nNeeds practice (default limit 40):")
+    for s in needs_practice(students):
+        print(f"  - {s['name']} (roll {s['roll_no']}), average {average(s):.2f}")
+
+    print("\nNeeds practice (limit 50):")
+    for s in needs_practice(students, 50):
+        print(f"  - {s['name']} (roll {s['roll_no']}), average {average(s):.2f}")
 
 
 if __name__ == "__main__":
