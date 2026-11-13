@@ -1,6 +1,6 @@
 """
 Placement Readiness Tracker
-IRP-II (CSE2596) Assignment - Task 1: data and control structures.
+IRP-II (CSE2596) Assignment - Tasks 1 and 2.
 """
 
 # Each student is a dictionary; all students are stored in a list.
@@ -46,9 +46,66 @@ def add_student_from_input(students):
     students.append(student)
 
 
+def average(student):
+    """Return the mean of the three scores."""
+    return (student["aptitude"] + student["verbal"] + student["coding"]) / 3
+
+
+def grade(avg):
+    """Return the grade for an average score."""
+    if avg >= 80:
+        return "A"
+    elif avg >= 60:
+        return "B"
+    elif avg >= 40:
+        return "C"
+    else:
+        return "Needs practice"
+
+
+def top_scorer(students):
+    """Return the student with the highest average."""
+    best = students[0]
+    for s in students:
+        if average(s) > average(best):
+            best = s
+    return best
+
+
+def needs_practice(students, limit=40):
+    """Return the students whose average is below limit (default 40)."""
+    weak = []
+    for s in students:
+        if average(s) < limit:
+            weak.append(s)
+    return weak
+
+
+def print_table(students):
+    """Print a neatly formatted result table using a loop."""
+    print(f"{'Name':<16}{'Roll':<7}{'Apt':>5}{'Verbal':>8}{'Coding':>8}{'Average':>9}  Grade")
+    print("-" * 68)
+    for s in students:
+        avg = average(s)
+        print(f"{s['name']:<16}{s['roll_no']:<7}{s['aptitude']:>5}{s['verbal']:>8}"
+              f"{s['coding']:>8}{avg:>9.2f}  {grade(avg)}")
+
+
 def main():
     add_student_from_input(students)
-    print(f"\nTotal students recorded: {len(students)}")
+    print("\n=== Result Table ===")
+    print_table(students)
+
+    top = top_scorer(students)
+    print(f"\nTop scorer: {top['name']} (roll {top['roll_no']}) with average {average(top):.2f}")
+
+    print("\nNeeds practice (default limit 40):")
+    for s in needs_practice(students):
+        print(f"  - {s['name']} (roll {s['roll_no']}), average {average(s):.2f}")
+
+    print("\nNeeds practice (limit 50):")
+    for s in needs_practice(students, 50):
+        print(f"  - {s['name']} (roll {s['roll_no']}), average {average(s):.2f}")
 
 
 if __name__ == "__main__":
